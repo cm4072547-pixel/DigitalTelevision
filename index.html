@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081426">
+  <title>DigitalTelevision</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="logo">DT</span><div><b>DigitalTelevision</b><small>PLAYER</small></div></div>
+    <button id="settingsBtn" class="outline">Setări listă</button>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">BUN VENIT</p><h1>Televiziunea ta,<br><em>într-un singur loc.</em></h1>
+      <p class="muted">Încarcă o listă M3U pentru a începe. Folosește doar liste și fluxuri pentru care ai drept de acces.</p></div>
+    </section>
+    <section class="player-wrap">
+      <video id="video" controls playsinline></video>
+      <div class="now"><div><small>ACUM RULEAZĂ</small><h2 id="nowTitle">Alege un canal</h2></div><span id="status">Pregătit</span></div>
+    </section>
+    <section class="content">
+      <div class="section-head"><div><p class="eyebrow">BIBLIOTECĂ</p><h2>Canale TV</h2></div><input id="search" placeholder="Caută un canal..." aria-label="Caută un canal"></div>
+      <div id="groups" class="chips"><button class="chip active" data-group="Toate">Toate</button></div>
+      <div id="channels" class="channels"><div class="empty">Încarcă o listă M3U din „Setări listă”.</div></div>
+    </section>
+  </main>
+  <dialog id="settings">
+    <form method="dialog" id="playlistForm">
+      <div class="dialog-head"><div><p class="eyebrow">CONFIGURARE</p><h2>Lista ta TV</h2></div><button class="close" value="cancel" aria-label="Închide">×</button></div>
+      <label for="m3uUrl">Adresă M3U</label>
+      <input id="m3uUrl" type="url" placeholder="https://exemplu.ro/lista.m3u">
+      <p class="hint">Adresa este folosită în browserul tău. Nu o trimite nimănui și nu introduce date de acces pe un dispozitiv partajat.</p>
+      <label for="m3uFile">Sau încarcă un fișier M3U</label>
+      <input id="m3uFile" type="file" accept=".m3u,.m3u8,text/plain">
+      <div class="actions"><button type="button" id="loadUrl" class="primary">Încarcă adresa</button><button type="button" id="loadFile" class="outline">Încarcă fișierul</button></div>
+      <p id="message" class="message" role="status"></p>
+    </form>
+  </dialog>
+  <footer>DigitalTelevision Player · Aplicație demonstrativă</footer>
+  <script src="app.js"></script>
+</body>
+</html>
