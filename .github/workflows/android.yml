@@ -3,6 +3,10 @@ name: Build DigitalTelevision APK
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'DigitalTelevisionPlayer-source.zip'
+      - '.github/workflows/android.yml'
 
 jobs:
   build:
@@ -12,7 +16,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check project files
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Extract project
         run: |
-          echo "Checking Android project..."
-          find . -maxdepth 3 -type f | head -100
+          unzip -q DigitalTelevisionPlayer-source.zip -d project
+
+      - name: Build APK
+        run: |
+          cd project/DigitalTelevisionPlayer
+          gradle assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: DigitalTelevision-APK
+          path: project/DigitalTelevisionPlayer/app/build/outputs/apk/debug/*.apk
