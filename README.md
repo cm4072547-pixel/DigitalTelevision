@@ -15,16 +15,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Extract Android project
+        run: |
+          unzip -q DigitalTelevisionPlayer-source.zip -d project
+
       - name: Find Android project
         run: |
-          echo "Searching for Android project..."
-          find . -type f -name "gradlew"
+          find project -type f -name gradlew
 
       - name: Build APK
         run: |
-          PROJECT=$(find . -type f -name "gradlew" | head -n 1 | xargs dirname)
-          if [ -z "$PROJECT" ]; then
-            echo "Android Gradle project not found"
+          PROJECT=$(dirname "$(find project -type f -name gradlew | head -n 1)")
+          if [ ! -f "$PROJECT/gradlew" ]; then
+            echo "Android project not found"
             exit 1
           fi
           cd "$PROJECT"
@@ -35,5 +38,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: DigitalTelevision-APK
-          path: "**/build/outputs/apk/debug/*.apk"
+          path: project/**/build/outputs/apk/debug/*.apk
           if-no-files-found: error
